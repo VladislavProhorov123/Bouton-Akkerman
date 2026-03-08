@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import heroImage from "../../public/hero.png";
+import heroImage from "/hero.png";
 import Header from "./Header";
 
 export default function Hero() {

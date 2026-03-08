@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../../public/buton.png";
+import logo from "/buton.png";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
