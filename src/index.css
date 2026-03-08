@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+:root {
+  --header-bg-color: #FAF3E3;
+  --button-bg-color: #B59C82;
+}
