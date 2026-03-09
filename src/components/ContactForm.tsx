@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 type FormData = {
   name: string;
   phone: number;
-  email: string;
   message: string;
 };
 
@@ -56,23 +55,6 @@ export default function ContactForm() {
         />
         {errors.phone && (
           <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
-        )}
-      </div>
-
-      <div>
-        <input
-          {...register("email", {
-            required: "Введіть email",
-            pattern: {
-              value: /^\S+@\S+$/i,
-              message: "Некоректний email",
-            },
-          })}
-          placeholder="Email"
-          className="w-full border rounded-lg p-3 outline-none focus:border-[var(--button-bg-color)]"
-        />
-        {errors.email && (
-          <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
         )}
       </div>
 

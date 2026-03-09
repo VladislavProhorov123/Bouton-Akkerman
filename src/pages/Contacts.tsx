@@ -1,23 +1,46 @@
-// src/pages/Contacts.tsx
+import { motion } from "framer-motion";
 import ContactForm from "../components/ContactForm";
 import { Facebook, Instagram, Send } from "lucide-react";
 
 export default function Contacts() {
+  const containerVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <div className="mt-[50px] py-20">
-      <div className="container mx-auto max-w-6xl px-4 grid md:grid-cols-2 gap-16">
+    <motion.div
+      className="md:mt-[70px] mt-[20px] py-20"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={containerVariants}
+    >
+      <div className="container mx-auto max-w-6xl px-4 grid gap-16 md:grid-cols-2">
 
         {/* Контактная информация */}
-        <div>
-          <h1 className="text-4xl font-bold mb-6">Контакти</h1>
+        <motion.div className="flex flex-col gap-10" variants={itemVariants}>
+          <h1 className="text-4xl font-bold">Контакти</h1>
 
-          <p className="text-gray-700 mb-8">
+          <p className="text-gray-700">
             Якщо у вас виникли питання щодо букетів, доставки або
             оформлення замовлення — напишіть нам через форму або
             використовуйте контактну інформацію нижче.
           </p>
 
-          <div className="flex flex-col gap-4 text-gray-700 mb-10">
+          <div className="flex flex-col gap-2 text-gray-700">
             <p><strong>Телефон:</strong> +38 050 123 45 67</p>
             <p><strong>Email:</strong> info@bouton.com</p>
             <p><strong>Адреса:</strong> м. Київ, вул. Квіткова 12</p>
@@ -27,39 +50,32 @@ export default function Contacts() {
           {/* Соцсети */}
           <div>
             <h2 className="text-2xl font-bold mb-4">Наші соцмережі</h2>
-
-            <div className="flex gap-6">
-              <a
-                href="#"
-                className="text-gray-700 hover:text-[#B59C82] transition"
-              >
+            <motion.div
+              className="flex justify-center md:justify-start gap-6"
+              variants={itemVariants}
+            >
+              <a href="#" className="text-gray-700 hover:text-[#B59C82] transition">
                 <Instagram size={28} />
               </a>
-
-              <a
-                href="#"
-                className="text-gray-700 hover:text-[#B59C82] transition"
-              >
+              <a href="#" className="text-gray-700 hover:text-[#B59C82] transition">
                 <Facebook size={28} />
               </a>
-
-              <a
-                href="#"
-                className="text-gray-700 hover:text-[#B59C82] transition"
-              >
+              <a href="#" className="text-gray-700 hover:text-[#B59C82] transition">
                 <Send size={28} />
               </a>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Форма */}
-        <div>
-          <h2 className="text-2xl font-bold mb-6">Напишіть нам</h2>
+        <motion.div className="flex flex-col gap-6" variants={itemVariants}>
+          <h2 className="text-2xl font-bold mb-6 text-center md:text-left">
+            Напишіть нам
+          </h2>
           <ContactForm />
-        </div>
+        </motion.div>
 
       </div>
-    </div>
+    </motion.div>
   );
 }
