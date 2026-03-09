@@ -18,15 +18,14 @@ export default function ProductCard({ id, name, price, image }: Product) {
         src={image}
         alt={name}
         className="w-full h-[250px] object-cover"
+        loading="lazy"
       />
 
       <div className="p-4 flex flex-col gap-2">
         <h3 className="font-semibold text-lg">{name}</h3>
 
         <div className="flex justify-between items-center">
-          <span className="font-bold ">
-            {price} грн
-          </span>
+          <span className="font-bold ">{price} грн</span>
 
           <button className="text-sm bg-[var(--button-bg-color)] text-white px-3 py-1 rounded-lg hover:opacity-90 transition">
             Детальніше

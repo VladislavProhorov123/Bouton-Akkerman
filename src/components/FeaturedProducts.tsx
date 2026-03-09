@@ -1,8 +1,32 @@
 import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
-import { products } from "../data/product";
+import { useEffect, useState } from "react";
+import { supabase } from "../supabaseClient";
+
+interface Bouquet {
+  id: number;
+  name: string;
+  price: number;
+  image_url: string;
+  discount: boolean;
+  description?: string;
+}
 
 export default function FeaturedProducts() {
+  const [products, setProducts] = useState<Bouquet[]>([])
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data, error } = await supabase.from("popular_bouquets").select("*").order("id", {ascending: true})
+
+      console.log("data:", data, "error:", error);
+
+      if(error) console.error("Ошибка загрузки букетов:", error)
+      else setProducts(data as Bouquet[])
+    }
+
+    fetchProducts()
+  }, [])
   return (
     <motion.section
       initial={{ opacity: 0, y: 70, filter: "blur(10px)" }}
@@ -25,9 +49,7 @@ export default function FeaturedProducts() {
               },
             },
           }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {products.map((product) => (
@@ -54,7 +76,7 @@ export default function FeaturedProducts() {
                 id={product.id}
                 name={product.name}
                 price={product.price}
-                image={product.image}
+                image={product.image_url}
               />
             </motion.div>
           ))}

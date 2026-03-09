@@ -20,17 +20,9 @@ export default function CategoriesSection() {
         </h2>
 
         <motion.div
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.2,
-              },
-            },
-          }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {categories.map((category) => (
