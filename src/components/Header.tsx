@@ -8,13 +8,29 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md shadow-md z-50">
+    <motion.header
+      initial={{
+        y: -80,
+        opacity: 0,
+        backdropFilter: "blur(0px)",
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+        backdropFilter: "blur(12px)",
+      }}
+      transition={{
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md shadow-md z-50"
+    >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3">
           <img src={logo} alt="Bouton Akkerman" className="w-10" />
           <h1 className="text-gray-900 text-xl font-bold">Bouton Akkerman</h1>
-        </div>
+        </Link>
 
         {/* Desktop Menu */}
         <nav className="hidden md:flex gap-6 text-gray-900 font-medium">
@@ -49,7 +65,6 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {open && (
           <motion.nav
@@ -91,6 +106,6 @@ export default function Header() {
           </motion.nav>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }

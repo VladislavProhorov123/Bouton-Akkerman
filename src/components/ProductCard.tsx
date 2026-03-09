@@ -1,35 +1,36 @@
+// src/components/ProductCard.tsx
 import { Link } from "react-router-dom";
 
-type Props = {
+type Product = {
   id: number;
   name: string;
   price: number;
   image: string;
 };
 
-export default function ProductCard({ id, name, price, image }: Props) {
+export default function ProductCard({ id, name, price, image }: Product) {
   return (
     <Link
       to={`/catalog/${id}`}
-      className="block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+      className="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
     >
-      <div className="overflow-hidden">
-        <img
-          src={image}
-          alt={name}
-          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
-        />
-      </div>
+      <img
+        src={image}
+        alt={name}
+        className="w-full h-[250px] object-cover"
+      />
 
-      <div className="p-4">
-        <h3 className="text-lg font-semibold mb-2">{name}</h3>
+      <div className="p-4 flex flex-col gap-2">
+        <h3 className="font-semibold text-lg">{name}</h3>
 
-        <div className="flex items-center justify-between">
-          <span className="text-xl font-bold">{price} ₴</span>
-
-          <span className="text-sm text-gray-500">
-            Детальніше
+        <div className="flex justify-between items-center">
+          <span className="font-bold ">
+            {price} грн
           </span>
+
+          <button className="text-sm bg-[var(--button-bg-color)] text-white px-3 py-1 rounded-lg hover:opacity-90 transition">
+            Детальніше
+          </button>
         </div>
       </div>
     </Link>

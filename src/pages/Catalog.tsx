@@ -1,20 +1,27 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import { products } from '../data/product';
+// src/pages/Catalog.tsx
+import ProductCard from "../components/ProductCard";
+import { products } from "../data/product";
 
 export default function Catalog() {
-  
-
   return (
-    <div className='mt-[100px]'>
-      <h2>Каталог</h2>
-      <ul>
-        {products.map(b => (
-          <li key={b.id}>
-            <Link to={`/catalog/${b.id}`}>{b.name}</Link>
-          </li>
-        ))}
-      </ul>
+    <div className="mt-[50px] py-16">
+      <div className="container mx-auto max-w-6xl px-4">
+
+        <h1 className="text-4xl font-bold mb-10">Каталог букетів</h1>
+
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              price={product.price}
+              image={product.image}
+            />
+          ))}
+        </div>
+
+      </div>
     </div>
-  )
+  );
 }

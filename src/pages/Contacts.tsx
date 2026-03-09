@@ -4,7 +4,7 @@ import { Facebook, Instagram, Send } from "lucide-react";
 
 export default function Contacts() {
   return (
-    <div className="mt-[72px] py-20">
+    <div className="mt-[50px] py-20">
       <div className="container mx-auto max-w-6xl px-4 grid md:grid-cols-2 gap-16">
 
         {/* Контактная информация */}
