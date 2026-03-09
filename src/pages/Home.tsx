@@ -11,7 +11,8 @@ export default function Home() {
     <div>
       <Hero />
       <CategoriesSection />
-      <FeaturedProducts /> <FlowerCareCTA />
+      <FeaturedProducts />
+      <FlowerCareCTA />
       <AdvantagesSection />
       <CTA />
     </div>

@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { flowerCareTips } from "../data/flowerCare";
+import { useEffect } from "react";
 
 type Props = {
   open: boolean;
@@ -7,6 +8,23 @@ type Props = {
 };
 
 export default function FlowerCareModal({ open, onClose }: Props) {
+  useEffect(() => {
+    if (open) {
+      // блокируем скролл
+      document.body.style.overflow = "hidden";
+    } else {
+      // восстанавливаем
+      document.body.style.overflow = "auto";
+    }
+
+    // очистка на unmount
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [open]);
+
+  if (!open) return null;
+
   return (
     <AnimatePresence>
       {open && (
@@ -26,7 +44,7 @@ export default function FlowerCareModal({ open, onClose }: Props) {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-xl bg-white rounded-xl p-6 shadow-lg"
+            className="fixed max-h-[400px] overflow-y-auto z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-xl bg-white rounded-xl p-6 shadow-lg"
           >
             <h2 className="text-2xl font-bold mb-4">Як доглядати за квітами</h2>
             <ul className="list-disc list-inside space-y-2 mb-6">

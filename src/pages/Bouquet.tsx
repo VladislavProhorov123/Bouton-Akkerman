@@ -5,7 +5,7 @@ export default function Bouquet() {
   const { id } = useParams<{ id: string }>();
 
   return (
-    <div>Сторінка букета з id: {id}</div>
+    <div className='mt-[100px]'>Сторінка букета з id: {id}</div>
 
   )
 }

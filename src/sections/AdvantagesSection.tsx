@@ -1,7 +1,7 @@
 // src/components/AdvantagesSection.tsx
 import AdvantageItem from "../components/AdvantageItem";
 import { advantages } from "../data/advantages";
-import advantageImage from "/1.png"; 
+import advantageImage from "/flower5.jpg"; 
 
 export default function AdvantagesSection() {
   return (
@@ -13,7 +13,7 @@ export default function AdvantagesSection() {
             <img
               src={advantageImage}
               alt="Переваги магазину"
-              className="rounded-xl shadow-lg w-full object-cover"
+              className="rounded-xl shadow-lg w-full object-cover max-h-[400px]"
             />
           </div>
 

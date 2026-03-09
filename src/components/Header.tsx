@@ -8,39 +8,48 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="w-full bg-[var(--header-bg-color)] p-4 flex justify-between items-center shadow-md relative z-50">
-      
-      {/* logo */}
-      <div className="flex gap-3 items-center">
-        <img src={logo} alt="" className="w-10" />
-        <h1 className="text-black text-xl font-bold">Bouton Akkerman</h1>
+    <header className="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md shadow-md z-50">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        {/* Logo */}
+        <div className="flex items-center gap-3">
+          <img src={logo} alt="Bouton Akkerman" className="w-10" />
+          <h1 className="text-gray-900 text-xl font-bold">Bouton Akkerman</h1>
+        </div>
+
+        {/* Desktop Menu */}
+        <nav className="hidden md:flex gap-6 text-gray-900 font-medium">
+          <Link to="/" className="hover:text-[#B59C82] transition-colors">
+            Головна
+          </Link>
+
+          <Link
+            to="/catalog"
+            className="hover:text-[#B59C82] transition-colors"
+          >
+            Каталог
+          </Link>
+          <Link to="/about" className="hover:text-[#B59C82] transition-colors">
+            Про нас
+          </Link>
+          <Link
+            to="/contacts"
+            className="hover:text-[#B59C82] transition-colors"
+          >
+            Контакти
+          </Link>
+        </nav>
+
+        {/* Burger Menu */}
+        <button
+          onClick={() => setOpen(!open)}
+          className="md:hidden text-gray-900"
+          aria-label="Меню"
+        >
+          {open ? <X size={28} /> : <Menu size={28} />}
+        </button>
       </div>
 
-      {/* desktop menu */}
-      <nav className="hidden md:flex gap-6 text-gray-800 font-medium">
-        <Link to="/" className="hover:text-gray-500 transition-colors">
-          Головна
-        </Link>
-        <Link to="/about" className="hover:text-gray-500 transition-colors">
-          Про нас
-        </Link>
-        <Link to="/catalog" className="hover:text-gray-500 transition-colors">
-          Каталог
-        </Link>
-        <Link to="/contacts" className="hover:text-gray-500 transition-colors">
-          Контакти
-        </Link>
-      </nav>
-
-      {/* burger */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="md:hidden text-black"
-      >
-        {open ? <X size={28} /> : <Menu size={28} />}
-      </button>
-
-      {/* mobile menu */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {open && (
           <motion.nav
@@ -53,31 +62,29 @@ export default function Header() {
             <Link
               to="/"
               onClick={() => setOpen(false)}
-              className="text-gray-800 text-lg font-medium"
+              className="text-gray-900 text-lg font-medium hover:text-[#B59C82]"
             >
               Головна
             </Link>
 
             <Link
-              to="/about"
-              onClick={() => setOpen(false)}
-              className="text-gray-800 text-lg font-medium"
-            >
-              Про нас
-            </Link>
-
-            <Link
               to="/catalog"
               onClick={() => setOpen(false)}
-              className="text-gray-800 text-lg font-medium"
+              className="text-gray-900 text-lg font-medium hover:text-[#B59C82]"
             >
               Каталог
             </Link>
-
+            <Link
+              to="/about"
+              onClick={() => setOpen(false)}
+              className="text-gray-900 text-lg font-medium hover:text-[#B59C82]"
+            >
+              Про нас
+            </Link>
             <Link
               to="/contacts"
               onClick={() => setOpen(false)}
-              className="text-gray-800 text-lg font-medium"
+              className="text-gray-900 text-lg font-medium hover:text-[#B59C82]"
             >
               Контакти
             </Link>

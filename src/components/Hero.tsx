@@ -6,9 +6,8 @@ import Header from "./Header";
 export default function Hero() {
   return (
     <section
-      className="w-full bg-cover bg-center flex items-center relative"
+      className="w-full bg-cover bg-center flex items-center relative h-screen"
       style={{
-        height: `calc(100vh - 72px)`,
         backgroundImage: `url(${heroImage})`,
       }}
     >
@@ -27,7 +26,7 @@ export default function Hero() {
 
           <Link
             to="/catalog"
-            className="bg-[var(--button-bg-color)] hover:bg-[var(--button-bg-color)] text-white font-bold py-3 px-6 rounded-3xl transition-colors duration-300 "
+            className="bg-[var(--button-bg-color)] hover:bg-[var(--button-bg-color)] text-white font-bold py-3 px-6 rounded  duration-300 hover:scale-102 active:scale-98 transition-all" 
           >
             Перейти до каталогу
           </Link>

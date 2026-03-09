@@ -3,7 +3,7 @@ import { categories } from "../data/categories";
 
 export default function CategoriesSection() {
   return (
-    <section className="py-16">
+    <section className="py-16 relative">
       <div className="mx-auto px-4 max-w-6xl">
         
         <h2 className="text-3xl font-bold mb-10 text-center">

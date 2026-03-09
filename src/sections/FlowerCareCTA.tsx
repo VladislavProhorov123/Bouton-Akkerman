@@ -1,13 +1,16 @@
 import { useState } from "react";
 import FlowerCareModal from "../components/FlowerCareModal";
+import flowerGroup from '/flowerGroup.png'
 
 export default function FlowerCareCTA() {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-6xl text-center">
+      <section className="py-20 bg-gray-50 bg-no-repeat bg-top" style={{
+        backgroundImage: `url(${flowerGroup})`,
+      }}>
+        <div className="mx-auto px-4 max-w-6xl text-center " >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Дізнайтеся, як доглядати за вашими квітами
           </h2>
