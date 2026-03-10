@@ -1,10 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { supabase } from "../supabaseClient";
 
 type FormData = {
   name: string;
   phone: number;
   message: string;
+  bouquet_id: null;
 };
 
 export default function ContactForm() {
@@ -15,9 +17,27 @@ export default function ContactForm() {
     reset,
   } = useForm<FormData>();
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data: FormData) => {
+    try {
+      const { error } = await supabase.from("orders").insert([
+        {
+          name: data.name,
+          phone: data.phone.toString(),
+          comment: data.message,
+          bouquet_id: null,
+        },
+      ]);
+
+      if (error) {
+        console.error("Ошибка отправки заявки:", error);
+        alert("Не удалось отправить заявку. Попробуйте снова.");
+      } else {
+        alert("Заявка успешно отправлена!");
+        reset();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <form

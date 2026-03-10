@@ -13,20 +13,23 @@ interface Bouquet {
 }
 
 export default function FeaturedProducts() {
-  const [products, setProducts] = useState<Bouquet[]>([])
+  const [products, setProducts] = useState<Bouquet[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const { data, error } = await supabase.from("popular_bouquets").select("*").order("id", {ascending: true})
+      const { data, error } = await supabase
+        .from("popular_bouquets")
+        .select("*")
+        .eq("is_popular", true);
 
       console.log("data:", data, "error:", error);
 
-      if(error) console.error("Ошибка загрузки букетов:", error)
-      else setProducts(data as Bouquet[])
-    }
+      if (error) console.error("Ошибка загрузки букетов:", error);
+      else setProducts(data as Bouquet[]);
+    };
 
-    fetchProducts()
-  }, [])
+    fetchProducts();
+  }, []);
   return (
     <motion.section
       initial={{ opacity: 0, y: 70, filter: "blur(10px)" }}
@@ -49,7 +52,6 @@ export default function FeaturedProducts() {
               },
             },
           }}
-          
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {products.map((product) => (
