@@ -18,9 +18,10 @@ export default function FeaturedProducts() {
   useEffect(() => {
     const fetchProducts = async () => {
       const { data, error } = await supabase
-        .from("popular_bouquets")
+        .from("products")
         .select("*")
-        .eq("is_popular", true);
+        .eq("is_popular", true)
+        .limit(6);
 
       console.log("data:", data, "error:", error);
 

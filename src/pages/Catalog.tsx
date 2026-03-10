@@ -1,8 +1,29 @@
-// src/pages/Catalog.tsx
+import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import { products } from "../data/product";
+import { supabase } from "../supabaseClient";
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image_url: string;
+  discount?: boolean;
+  description?: string;
+}
 
 export default function Catalog() {
+  const [products, setProducts] = useState<Product[]>([])
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data, error } = await supabase.from("products").select("*").order("id", {ascending: true})
+
+      if(error) console.error(error)
+      else setProducts(data as Product[])
+    }
+
+    fetchProducts()
+  }, [])
   return (
     <div className="mt-[30px] py-16">
       <div className="container mx-auto max-w-6xl px-4">
@@ -16,7 +37,7 @@ export default function Catalog() {
               id={product.id}
               name={product.name}
               price={product.price}
-              image={product.image}
+              image={product.image_url}
             />
           ))}
         </div>
