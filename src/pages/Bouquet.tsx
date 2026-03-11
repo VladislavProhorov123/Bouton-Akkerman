@@ -13,6 +13,7 @@ interface Bouquet {
   name: string;
   price: number;
   image_url: string;
+  category_id: number;
   description?: string;
   composition?: string[];
   category?: Category;
@@ -21,18 +22,20 @@ interface Bouquet {
 export default function Bouquet() {
   const { id } = useParams<{ id: string }>();
   const [bouquet, setBouquet] = useState<Bouquet | null>(null);
+  const [similar, setSimilar] = useState<Bouquet[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBouquet = async () => {
       if (!id) return;
+
       const { data, error } = await supabase
         .from("products")
         .select(
           `
-          *,
-          category:category_id(id, name, slug)
-        `,
+      *,
+      category:category_id(id, name, slug)
+    `,
         )
         .eq("id", +id)
         .single();
@@ -42,7 +45,17 @@ export default function Bouquet() {
         setBouquet(null);
       } else {
         setBouquet(data as Bouquet);
+
+        const { data: similarProducts } = await supabase
+          .from("products")
+          .select("*")
+          .eq("category_id", data.category_id)
+          .neq("id", data.id)
+          .limit(4);
+
+        setSimilar(similarProducts || []);
       }
+
       setLoading(false);
     };
     fetchBouquet();
@@ -91,6 +104,45 @@ export default function Bouquet() {
           <button className="bg-[var(--button-bg-color)] text-white font-bold py-3 px-6 rounded-3xl hover:opacity-90 transition">
             Замовити букет
           </button>
+        </div>
+      </div>
+      <div className="mt-20">
+        <h2 className="text-2xl font-bold mb-6">Схожі букети</h2>
+
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {similar.map((item) => (
+            <div
+              key={item.id}
+              className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 overflow-hidden flex flex-col"
+            >
+              <div className="overflow-hidden">
+                <img
+                  src={item.image_url}
+                  alt={item.name}
+                  className="w-full h-[240px] object-cover hover:scale-105 transition duration-300"
+                />
+              </div>
+
+              <div className="p-4 flex flex-col flex-1 justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold line-clamp-2">
+                    {item.name}
+                  </h3>
+
+                  <p className="mt-2 text-lg font-bold text-[var(--button-bg-color)]">
+                    {item.price} грн
+                  </p>
+                </div>
+
+                <a
+                  href={`/catalog/${item.id}`}
+                  className="mt-4 text-center bg-[var(--button-bg-color)] text-white font-semibold py-2 rounded-xl hover:opacity-90 transition"
+                >
+                  Детальніше
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
