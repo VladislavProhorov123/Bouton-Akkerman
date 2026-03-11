@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
+import OrderModal from "../components/OrderModal";
 
 interface Category {
   id: number;
@@ -19,10 +20,21 @@ interface Bouquet {
   category?: Category;
 }
 
+interface Review {
+  id: number;
+  product_id: number;
+  name: string;
+  avatar_url?: string;
+  comment: string;
+  created_at: string;
+}
+
 export default function Bouquet() {
   const { id } = useParams<{ id: string }>();
   const [bouquet, setBouquet] = useState<Bouquet | null>(null);
   const [similar, setSimilar] = useState<Bouquet[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -54,6 +66,14 @@ export default function Bouquet() {
           .limit(4);
 
         setSimilar(similarProducts || []);
+
+        const { data: reviewData } = await supabase
+          .from("reviews")
+          .select("*")
+          .eq("product_id", data.id)
+          .order("created_at", { ascending: false });
+
+        setReviews(reviewData || []);
       }
 
       setLoading(false);
@@ -71,7 +91,7 @@ export default function Bouquet() {
         <img
           src={bouquet.image_url}
           alt={bouquet.name}
-          className="w-full h-[450px] object-cover rounded-2xl"
+          className="w-full h-[250px] sm:h-[350px] md:h-[450px] object-cover rounded-2xl"
         />
 
         <div className="flex flex-col gap-6">
@@ -101,9 +121,11 @@ export default function Bouquet() {
             )}
           </div>
 
-          <button className="bg-[var(--button-bg-color)] text-white font-bold py-3 px-6 rounded-3xl hover:opacity-90 transition">
+          <button className="bg-[var(--button-bg-color)] text-white font-bold py-3 px-6 rounded-3xl hover:opacity-90 transition" onClick={() => setIsModalOpen(true)}>
             Замовити букет
           </button>
+
+          <OrderModal bouquetName={bouquet.name} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
       </div>
       <div className="mt-20">
@@ -140,6 +162,47 @@ export default function Bouquet() {
                 >
                   Детальніше
                 </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-20">
+        <h2 className="text-2xl font-bold mb-10">Відгуки</h2>
+
+        {reviews.length === 0 && (
+          <p className="text-gray-500">Поки що немає відгуків</p>
+        )}
+
+        <div className="flex flex-col gap-6">
+          {reviews.map((review) => (
+            <div
+              key={review.id}
+              className="max-w-sm bg-white rounded-2xl shadow-sm p-6"
+            >
+              <div className="flex items-start gap-4">
+                {review.avatar_url && (
+                  <img
+                    src={review.avatar_url}
+                    alt={review.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                )}
+
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-3 mb-1">
+                    <p className="font-semibold">{review.name}</p>
+
+                    <span className="text-sm text-gray-400">
+                      {new Date(review.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+
+                  <p className="text-gray-600 leading-relaxed">
+                    {review.comment}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
