@@ -200,7 +200,7 @@ export default function Catalog() {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 10}
-              className="px-4 py-2 rounded-xl bg-gray-200 disabled:opacity-50"
+              className="px-4 py-2 rounded-xl bg-gray-200 disabled:opacity-50 cursor-pointer"
             >
               Назад
             </button>
@@ -209,7 +209,7 @@ export default function Catalog() {
               <button
                 key={i + 1}
                 onClick={() => setCurrentPage(i + 1)}
-                className={`px-4 py-2 rounded-xl ${currentPage === i + 1 ? "bg-[var(--button-bg-color)] text-white" : "bg-gray-200"}`}
+                className={`px-4 py-2 rounded-xl ${currentPage === i + 1 ? "cursor-pointer bg-[var(--button-bg-color)] text-white" : "bg-gray-200 cursor-pointer"}`}
               >
                 {i + 1}
               </button>
@@ -220,7 +220,7 @@ export default function Catalog() {
                 setCurrentPage((prev) => Math.min(prev + 1, totalPages))
               }
               disabled={currentPage === totalPages}
-              className="px-4 py-2 rounded-xl bg-gray-200 disabled:opacity-50"
+              className="cursor-pointer px-4 py-2 rounded-xl bg-gray-200 disabled:opacity-50"
             >
               Вперед
             </button>

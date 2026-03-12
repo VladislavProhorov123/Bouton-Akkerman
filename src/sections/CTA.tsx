@@ -13,7 +13,7 @@ export default function CTA() {
         </p>
         <Link
           to="/catalog"
-          className="bg-white text-[var(--button-bg-color)] font-bold py-3 px-8 rounded shadow-lg hover:shadow-xl transition-all duration-300"
+          className="bg-white text-[var(--button-bg-color)] font-bold py-3 px-8 rounded shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
         >
           Перейти до каталогу
         </Link>

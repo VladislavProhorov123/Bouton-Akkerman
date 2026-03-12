@@ -19,7 +19,7 @@ export default function FlowerCareCTA() {
           </p>
           <button
             onClick={() => setOpen(true)}
-            className="bg-[var(--button-bg-color)] text-white font-bold py-3 px-8 rounded shadow-lg hover:shadow-xl transition-all duration-300"
+            className="bg-[var(--button-bg-color)] text-white font-bold py-3 px-8 rounded shadow-lg hover:shadow-xl hover:brightness-95 transition-all duration-300 cursor-pointer hover:-translate-y-1"
           >
             Дізнатися більше
           </button>

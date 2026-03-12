@@ -97,7 +97,7 @@ export default function Hero() {
           >
             <Link
               to="/catalog"
-              className="bg-[var(--button-bg-color)] text-white font-bold py-3 px-6 rounded duration-300 hover:scale-102 active:scale-98 transition-all"
+              className="bg-[var(--button-bg-color)] text-white font-bold py-3 px-6 rounded duration-300  active:scale-98 transition-all cursor-pointer"
             >
               Перейти до каталогу
             </Link>
