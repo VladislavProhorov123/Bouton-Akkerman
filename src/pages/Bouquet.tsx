@@ -18,6 +18,7 @@ interface Bouquet {
   description?: string;
   composition?: string[];
   category?: Category;
+  is_popular?: boolean;
 }
 
 interface Review {
@@ -34,7 +35,7 @@ export default function Bouquet() {
   const [bouquet, setBouquet] = useState<Bouquet | null>(null);
   const [similar, setSimilar] = useState<Bouquet[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -95,7 +96,15 @@ export default function Bouquet() {
         />
 
         <div className="flex flex-col gap-6">
-          <h1 className="text-3xl font-bold">{bouquet.name}</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl font-bold">{bouquet.name}</h1>
+
+            {bouquet.is_popular && (
+              <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                Популярне
+              </span>
+            )}
+          </div>
 
           {bouquet.category && (
             <p className="text-sm text-gray-500">
@@ -121,11 +130,18 @@ export default function Bouquet() {
             )}
           </div>
 
-          <button className="bg-[var(--button-bg-color)] text-white font-bold py-3 px-6 rounded-3xl hover:opacity-90 transition" onClick={() => setIsModalOpen(true)}>
+          <button
+            className="bg-[var(--button-bg-color)] text-white font-bold py-3 px-6 rounded-3xl hover:opacity-90 transition"
+            onClick={() => setIsModalOpen(true)}
+          >
             Замовити букет
           </button>
 
-          <OrderModal bouquetName={bouquet.name} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+          <OrderModal
+            bouquetName={bouquet.name}
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
         </div>
       </div>
       <div className="mt-20">

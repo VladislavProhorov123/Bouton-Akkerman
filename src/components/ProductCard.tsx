@@ -6,14 +6,20 @@ type Product = {
   name: string;
   price: number;
   image: string;
+  isPopular?: boolean;
 };
 
-export default function ProductCard({ id, name, price, image }: Product) {
+export default function ProductCard({ id, name, price, image, isPopular }: Product) {
   return (
     <Link
       to={`/catalog/${id}`}
-      className="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
+      className="relative block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
     >
+      {isPopular && (
+              <span className="absolute top-3 right-3 bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg z-10">
+                Популярне
+              </span>
+            )}
       <img
         src={image}
         alt={name}

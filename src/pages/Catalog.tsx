@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { supabase } from "../supabaseClient";
+import { AnimatePresence, motion } from "motion/react";
 
 interface Product {
   id: number;
@@ -91,6 +92,13 @@ export default function Catalog() {
 
         {/* Фильтры */}
         <div className="flex flex-wrap gap-4 mb-8">
+          <input
+            type="text"
+            placeholder="Пошук букетів..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full p-2 md:p-3 rounded-xl border border-gray-300 focus:border-[var(--button-bg-color)] focus:ring-[var(--button-bg-color)] focus:ring-1 outline-none transition"
+          />
           <button
             onClick={() => setFiltersOpen(true)}
             className="md:hidden mb-6 px-4 py-2 rounded-lg bg-[var(--button-bg-color)] text-white"
@@ -98,15 +106,8 @@ export default function Catalog() {
             Фільтри
           </button>
           <div className="hidden md:flex flex-wrap gap-4 mb-8">
-            <input
-              type="text"
-              placeholder="Пошук букетів..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full md:w-[300px] border rounded-lg px-4 py-2 mb-6"
-            />
             <select
-              className="border rounded-lg px-4 py-2"
+              className="w-full p-2 md:p-3 rounded-xl border border-gray-300 focus:border-[var(--button-bg-color)] focus:ring-[var(--button-bg-color)] focus:ring-1 outline-none transition"
               value={filters.categoryId}
               onChange={(e) =>
                 setFilters({ ...filters, categoryId: +e.target.value })
@@ -122,7 +123,7 @@ export default function Catalog() {
 
             {/* Цена */}
             <select
-              className="border rounded-lg px-4 py-2"
+              className="w-full p-2 md:p-3 rounded-xl border border-gray-300 focus:border-[var(--button-bg-color)] focus:ring-[var(--button-bg-color)] focus:ring-1 outline-none transition"
               value={filters.priceRange}
               onChange={(e) =>
                 setFilters({ ...filters, priceRange: +e.target.value })
@@ -149,7 +150,7 @@ export default function Catalog() {
 
             {/* Сортировка */}
             <select
-              className="border rounded-lg px-4 py-2"
+              className="w-full p-2 md:p-3 rounded-xl border border-gray-300 focus:border-[var(--button-bg-color)] focus:ring-[var(--button-bg-color)] focus:ring-1 outline-none transition"
               value={filters.sort}
               onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
             >
@@ -169,81 +170,95 @@ export default function Catalog() {
               name={product.name}
               price={product.price}
               image={product.image_url}
+              isPopular={product.is_popular}
             />
           ))}
         </div>
       </div>
 
       {filtersOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-end md:hidden">
-          <div className="bg-white w-full rounded-t-2xl p-6 max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold">Фільтри</h2>
-              <button onClick={() => setFiltersOpen(false)}>✕</button>
-            </div>
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-50 flex justify-center items-end md:hidden"
+          >
+            <motion.div
+              initial={{ y: 300 }}
+              animate={{ y: 0 }}
+              exit={{ y: 300 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white w-full rounded-t-2xl p-6 max-h-[80vh] overflow-y-auto"
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-semibold">Фільтри</h2>
+                <button onClick={() => setFiltersOpen(false)}>✕</button>
+              </div>
 
-            <div className="flex flex-col gap-4">
-              <select
-                className="border rounded-lg px-4 py-2"
-                value={filters.categoryId}
-                onChange={(e) =>
-                  setFilters({ ...filters, categoryId: +e.target.value })
-                }
-              >
-                <option value={0}>Всі категорії</option>
-                {categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                className="border rounded-lg px-4 py-2"
-                value={filters.priceRange}
-                onChange={(e) =>
-                  setFilters({ ...filters, priceRange: +e.target.value })
-                }
-              >
-                <option value={0}>Вся ціна</option>
-                <option value={1}>До 1000 грн</option>
-                <option value={2}>1000 - 2000 грн</option>
-                <option value={3}>2000 - 4000 грн</option>
-                <option value={4}>4000+ грн</option>
-              </select>
-
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={filters.popularOnly}
+              <div className="flex flex-col gap-4">
+                <select
+                  className="w-full p-2 md:p-3 rounded-xl border border-gray-300 focus:border-[var(--button-bg-color)] focus:ring-[var(--button-bg-color)] focus:ring-1 outline-none transition"
+                  value={filters.categoryId}
                   onChange={(e) =>
-                    setFilters({ ...filters, popularOnly: e.target.checked })
+                    setFilters({ ...filters, categoryId: +e.target.value })
                   }
-                />
-                Популярні
-              </label>
+                >
+                  <option value={0}>Всі категорії</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
+                  ))}
+                </select>
 
-              <select
-                className="border rounded-lg px-4 py-2"
-                value={filters.sort}
-                onChange={(e) =>
-                  setFilters({ ...filters, sort: e.target.value })
-                }
-              >
-                <option value="">Без сортування</option>
-                <option value="asc">Ціна ↑</option>
-                <option value="desc">Ціна ↓</option>
-              </select>
+                <select
+                  className="w-full p-2 md:p-3 rounded-xl border border-gray-300 focus:border-[var(--button-bg-color)] focus:ring-[var(--button-bg-color)] focus:ring-1 outline-none transition"
+                  value={filters.priceRange}
+                  onChange={(e) =>
+                    setFilters({ ...filters, priceRange: +e.target.value })
+                  }
+                >
+                  <option value={0}>Вся ціна</option>
+                  <option value={1}>До 1000 грн</option>
+                  <option value={2}>1000 - 2000 грн</option>
+                  <option value={3}>2000 - 4000 грн</option>
+                  <option value={4}>4000+ грн</option>
+                </select>
 
-              <button
-                onClick={() => setFiltersOpen(false)}
-                className="mt-4 bg-[var(--button-bg-color)] text-white py-3 rounded-xl"
-              >
-                Показати
-              </button>
-            </div>
-          </div>
-        </div>
+                <select
+                  className="w-full p-2 md:p-3 rounded-xl border border-gray-300 focus:border-[var(--button-bg-color)] focus:ring-[var(--button-bg-color)] focus:ring-1 outline-none transition"
+                  value={filters.sort}
+                  onChange={(e) =>
+                    setFilters({ ...filters, sort: e.target.value })
+                  }
+                >
+                  <option value="">Без сортування</option>
+                  <option value="asc">Ціна ↑</option>
+                  <option value="desc">Ціна ↓</option>
+                </select>
+
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={filters.popularOnly}
+                    onChange={(e) =>
+                      setFilters({ ...filters, popularOnly: e.target.checked })
+                    }
+                  />
+                  Популярні
+                </label>
+
+                <button
+                  onClick={() => setFiltersOpen(false)}
+                  className="mt-4 bg-[var(--button-bg-color)] text-white py-3 rounded-xl"
+                >
+                  Показати
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
       )}
     </div>
   );
