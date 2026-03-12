@@ -207,7 +207,7 @@ export default function Bouquet() {
           <p className="text-gray-500">Поки що немає відгуків</p>
         )}
 
-        <div className="flex flex-col gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {reviews.map((review) => (
             <div
               key={review.id}
