@@ -19,6 +19,7 @@ interface Bouquet {
   composition?: string[];
   category?: Category;
   is_popular?: boolean;
+  discount_percent?: number;
 }
 
 interface Review {
@@ -96,11 +97,11 @@ export default function Bouquet() {
         />
 
         <div className="flex flex-col gap-6">
-          <div className="flex items-center gap-3">
+          <div className="flex items-end gap-3">
             <h1 className="text-3xl font-bold">{bouquet.name}</h1>
 
             {bouquet.is_popular && (
-              <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+              <span className="bg-[var(--button-bg-color)]  text-white text-xs font-bold px-3 py-1 rounded-full">
                 Популярне
               </span>
             )}
@@ -112,8 +113,23 @@ export default function Bouquet() {
             </p>
           )}
 
-          <p className="text-2xl font-semibold text-[var(--button-bg-color)]">
-            {bouquet.price} грн
+          <p className="text-2xl font-semibold text-gray-900">
+            {bouquet.discount_percent ? (
+              <>
+                <span className="line-through text-gray-400 mr-2">
+                  {bouquet.price} грн
+                </span>
+                {Math.round(
+                  bouquet.price * (1 - bouquet.discount_percent / 100),
+                )}{" "}
+                грн
+                <span className="ml-2 bg-[var(--button-bg-color)]  text-white px-2 py-1 rounded-full text-xs">
+                  -{bouquet.discount_percent}%
+                </span>
+              </>
+            ) : (
+              `${bouquet.price} грн`
+            )}
           </p>
 
           <p className="text-gray-600">{bouquet.description}</p>

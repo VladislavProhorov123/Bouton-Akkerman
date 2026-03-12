@@ -7,10 +7,12 @@ import Catalog from './pages/Catalog'
 import Bouquet from './pages/Bouquet'
 import Contacts from './pages/Contacts'
 import NotFound from './pages/NotFound'
+import ScrollToTop from './components/ScrollToTop'
 
 export default function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop />
     <MainLayout>
       <Routes>
         <Route path='/' element={<Home />} />

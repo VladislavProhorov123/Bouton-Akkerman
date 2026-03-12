@@ -8,7 +8,7 @@ interface Product {
   name: string;
   price: number;
   image_url: string;
-  discount?: boolean;
+  discount_percent?: number;
   description?: string;
   category_id?: number;
   is_popular?: boolean;
@@ -171,6 +171,7 @@ export default function Catalog() {
               price={product.price}
               image={product.image_url}
               isPopular={product.is_popular}
+              discountPercent={product.discount_percent}
             />
           ))}
         </div>
