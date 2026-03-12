@@ -3,6 +3,8 @@ import ProductCard from "../components/ProductCard";
 import { supabase } from "../supabaseClient";
 import { AnimatePresence, motion } from "motion/react";
 
+const PRODUCTS_PER_PAGE = 8;
+
 interface Product {
   id: number;
   name: string;
@@ -22,6 +24,7 @@ interface Category {
 
 export default function Catalog() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -81,9 +84,16 @@ export default function Catalog() {
       const { data, error } = await query;
       if (error) console.error(error);
       else setProducts(data || []);
+
+      setCurrentPage(1);
     };
     fetchProducts();
   }, [filters, debouncedSearch]);
+
+  const lastIndex = currentPage * PRODUCTS_PER_PAGE;
+  const firstIndex = lastIndex - PRODUCTS_PER_PAGE;
+  const currentProducts = products.slice(firstIndex, lastIndex);
+  const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
 
   return (
     <div className="mt-[30px] py-16">
@@ -157,24 +167,65 @@ export default function Catalog() {
               />
               Популярні
             </label>
-
           </div>
         </div>
 
         {/* Сетка продуктов */}
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              price={product.price}
-              image={product.image_url}
-              isPopular={product.is_popular}
-              discountPercent={product.discount_percent}
-            />
-          ))}
+          <AnimatePresence>
+            {currentProducts.map((product) => (
+              <motion.div
+                key={product.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  image={product.image_url}
+                  isPopular={product.is_popular}
+                  discountPercent={product.discount_percent}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4 mt-8">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 10}
+              className="px-4 py-2 rounded-xl bg-gray-200 disabled:opacity-50"
+            >
+              Назад
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`px-4 py-2 rounded-xl ${currentPage === i + 1 ? "bg-[var(--button-bg-color)] text-white" : "bg-gray-200"}`}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-xl bg-gray-200 disabled:opacity-50"
+            >
+              Вперед
+            </button>
+          </div>
+        )}
       </div>
 
       {filtersOpen && (
