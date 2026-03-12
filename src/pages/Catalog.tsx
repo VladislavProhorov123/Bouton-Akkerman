@@ -87,7 +87,7 @@ export default function Catalog() {
 
   return (
     <div className="mt-[30px] py-16">
-      <div className="container mx-auto max-w-6xl px-4">
+      <div className="mx-auto max-w-6xl px-4">
         <h1 className="text-4xl font-bold mb-6">Каталог букетів</h1>
 
         {/* Фильтры */}
@@ -105,7 +105,7 @@ export default function Catalog() {
           >
             Фільтри
           </button>
-          <div className="hidden md:flex flex-wrap gap-4 mb-8">
+          <div className="hidden md:flex flex gap-4 mb-8">
             <select
               className="w-full p-2 md:p-3 rounded-xl border border-gray-300 focus:border-[var(--button-bg-color)] focus:ring-[var(--button-bg-color)] focus:ring-1 outline-none transition"
               value={filters.categoryId}
@@ -136,6 +136,16 @@ export default function Catalog() {
               <option value={4}>4000+ грн</option>
             </select>
 
+            <select
+              className="w-full p-2 md:p-3 rounded-xl border border-gray-300 focus:border-[var(--button-bg-color)] focus:ring-[var(--button-bg-color)] focus:ring-1 outline-none transition"
+              value={filters.sort}
+              onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
+            >
+              <option value="">Без сортування</option>
+              <option value="asc">Ціна ↑</option>
+              <option value="desc">Ціна ↓</option>
+            </select>
+
             {/* Популярные */}
             <label className="flex items-center gap-2">
               <input
@@ -148,16 +158,6 @@ export default function Catalog() {
               Популярні
             </label>
 
-            {/* Сортировка */}
-            <select
-              className="w-full p-2 md:p-3 rounded-xl border border-gray-300 focus:border-[var(--button-bg-color)] focus:ring-[var(--button-bg-color)] focus:ring-1 outline-none transition"
-              value={filters.sort}
-              onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
-            >
-              <option value="">Без сортування</option>
-              <option value="asc">Ціна ↑</option>
-              <option value="desc">Ціна ↓</option>
-            </select>
           </div>
         </div>
 

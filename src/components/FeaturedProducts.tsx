@@ -8,8 +8,9 @@ interface Bouquet {
   name: string;
   price: number;
   image_url: string;
-  discount: boolean;
+  discount_percent?: number;
   description?: string;
+  is_popular?: boolean
 }
 
 export default function FeaturedProducts() {
@@ -80,6 +81,8 @@ export default function FeaturedProducts() {
                 name={product.name}
                 price={product.price}
                 image={product.image_url}
+                isPopular={product.is_popular}
+              discountPercent={product.discount_percent}
               />
             </motion.div>
           ))}

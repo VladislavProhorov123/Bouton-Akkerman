@@ -135,7 +135,7 @@ export default function Bouquet() {
           <p className="text-gray-600">{bouquet.description}</p>
 
           <div>
-            <h3 className="text-lg font-semibold mb-2">Склад букета</h3>
+            <h3 className="text-lg font-semibold mb-2">Склад:</h3>
 
             {bouquet.composition && (
               <ul className="list-disc pl-5 text-gray-600">
@@ -150,7 +150,7 @@ export default function Bouquet() {
             className="bg-[var(--button-bg-color)] text-white font-bold py-3 px-6 rounded-3xl hover:opacity-90 transition"
             onClick={() => setIsModalOpen(true)}
           >
-            Замовити букет
+            Замовити
           </button>
 
           <OrderModal
@@ -161,7 +161,7 @@ export default function Bouquet() {
         </div>
       </div>
       <div className="mt-20">
-        <h2 className="text-2xl font-bold mb-6">Схожі букети</h2>
+        <h2 className="text-2xl font-bold mb-6">Може бути цікаво</h2>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {similar.map((item) => (
