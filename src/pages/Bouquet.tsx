@@ -137,7 +137,7 @@ export default function Bouquet() {
           <div>
             <h3 className="text-lg font-semibold mb-2">Склад:</h3>
 
-            {Array.isArray(bouquet.composition) && (
+            {bouquet.composition && (
               <ul className="list-disc pl-5 text-gray-600">
                 {bouquet.composition.map((item: string, index: number) => (
                   <li key={index}>{item.trim()}</li>
