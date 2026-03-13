@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import OrderModal from "../components/OrderModal";
 
@@ -139,9 +139,11 @@ export default function Bouquet() {
 
             {bouquet.composition && (
               <ul className="list-disc pl-5 text-gray-600">
-                {bouquet.composition.map((item: string, index: number) => (
-                  <li key={index}>{item.trim()}</li>
-                ))}
+                {bouquet.composition
+                  .split(",")
+                  .map((item: string, index: number) => (
+                    <li key={index}>{item.trim()}</li>
+                  ))}
               </ul>
             )}
           </div>
@@ -188,12 +190,12 @@ export default function Bouquet() {
                   </p>
                 </div>
 
-                <a
-                  href={`/catalog/${item.id}`}
+                <Link
+                  to={`/catalog/${item.id}`}
                   className="mt-4 text-center bg-[var(--button-bg-color)] text-white font-semibold py-2 rounded-xl hover:opacity-90 transition"
                 >
                   Детальніше
-                </a>
+                </Link>
               </div>
             </div>
           ))}
