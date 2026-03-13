@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -35,16 +35,17 @@ export default function OrderModal({
     e.preventDefault();
     setLoading(true);
 
-    const { data, error } = await supabase.from("orders").insert([
+    const { error } = await supabase.from("orders").insert([
       {
         name,
         phone,
         bouquet: bouquetName,
-        delivery_type: deliveryType,
+        delivery_type: deliveryType as "Доставка" | "Самовивіз",
         address: deliveryType === "Доставка" ? address : null,
         comment,
       },
     ]);
+
     setLoading(false);
 
     if (error) {

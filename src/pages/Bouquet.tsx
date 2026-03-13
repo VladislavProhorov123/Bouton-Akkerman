@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import OrderModal from "../components/OrderModal";
@@ -139,7 +139,7 @@ export default function Bouquet() {
 
             {bouquet.composition && (
               <ul className="list-disc pl-5 text-gray-600">
-                {bouquet.composition.split(",").map((item, index) => (
+                {bouquet.composition.map((item: string, index: number) => (
                   <li key={index}>{item.trim()}</li>
                 ))}
               </ul>

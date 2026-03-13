@@ -1,10 +1,7 @@
-// src/components/AdvantageItem.tsx
-import { Icon } from "lucide-react";
-
 type Props = {
   title: string;
   description: string;
-  icon: Icon;
+  icon: React.ElementType;
 };
 
 export default function AdvantageItem({ title, description, icon: IconComponent }: Props) {
