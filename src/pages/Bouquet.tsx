@@ -136,14 +136,14 @@ export default function Bouquet() {
 
           <div>
             <h3 className="text-lg font-semibold mb-2">Склад:</h3>
-            {bouquet.composition && typeof bouquet.composition === "string" && (
+
+            {bouquet.composition && (
               <ul className="list-disc pl-5 text-gray-600">
-                {bouquet.composition.split(",").map((item, index) => (
+                {bouquet.composition.map((item: string, index: number) => (
                   <li key={index}>{item.trim()}</li>
                 ))}
               </ul>
             )}
-            ч
           </div>
 
           <button
