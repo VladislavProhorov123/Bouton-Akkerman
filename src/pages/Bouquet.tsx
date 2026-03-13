@@ -16,7 +16,7 @@ interface Bouquet {
   image_url: string;
   category_id: number;
   description?: string;
-  composition?: string[];
+  composition?: string[] | string;
   category?: Category;
   is_popular?: boolean;
   discount_percent?: number;
@@ -139,7 +139,10 @@ export default function Bouquet() {
 
             {bouquet.composition && (
               <ul className="list-disc pl-5 text-gray-600">
-                {bouquet.composition.map((item: string, index: number) => (
+                {(Array.isArray(bouquet.composition)
+                  ? bouquet.composition
+                  : String(bouquet.composition).split(",")
+                ).map((item: string, index: number) => (
                   <li key={index}>{item.trim()}</li>
                 ))}
               </ul>
